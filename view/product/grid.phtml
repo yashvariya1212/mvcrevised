@@ -1,0 +1,64 @@
+<?php 
+
+// echo "<pre>"; 
+// print_r($products);
+// die();
+
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GRID</title>
+</head>
+<body>
+	<?PHP require 'view/html/header.phtml'; ?>
+	<table  width="100%" style="margin-bottom:10px";>
+		<tr>
+			<th> <h2>PRODUCT GRID</h2>	</th>
+			<th> <button> <a href="index.php?c=Product&a=add">ADD</a> </button></th>
+		</tr>
+	</table>
+	<table border="2px" width="100%" style="text-align: center;">
+		<tr>
+			<th>PRODUCT ID</th>
+			<th>PRODUCT NAME</th>
+			<th>COST</th>
+			<th>PRICE</th>
+			<th>SKU</th>
+			<th>STATUS</th>
+			<th>QUANTITY</th>
+			<th>DISCRIPTION</th>
+			<th>COLOR</th>
+			<th>MATERIAL</th>
+			<th>CREATED AT</th>
+			<th>UPDATED AT</th>
+			<th>EDIT</th>
+			<th>DELETE</th>
+		</tr>
+	<?php foreach ($products as $value): ?>
+		<tr>
+			<td><?php echo $value['product_id']; ?></td>
+			<td><?php echo $value['product_name']; ?></td>
+			<td><?php echo $value['cost']; ?></td>
+			<td><?php echo $value['price']; ?></td>
+			<td><?php echo $value['sku']; ?></td>
+			<td><?php echo $value['status']; ?></td>
+			<td><?php echo $value['quantity']; ?></td>
+			<td><?php echo $value['discription']; ?></td>
+			<td><?php echo $value['color']; ?></td>
+			<td><?php echo $value['material']; ?></td>
+			<td><?php echo $value['created_at']; ?></td>
+			<td><?php echo $value['updated_at']; ?></td>
+			<td> <a href="index.php?c=Product&a=edit&id=<?php echo $value['product_id']; ?>">EDIT</a> </td>
+			<td> <a href="index.php?c=Product&a=delete&id=<?php echo $value['product_id']; ?>">DELETE</a> </td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+
+
+</body>
+</html>
