@@ -4,76 +4,125 @@
 
 class Controller_Product extends Controller_Core_Action 
 {
-	
+
 	public function gridAction()
 	{
-			$query = "SELECT * FROM `product`";
-
-			$adapter = $this->getAdapter();
-			$products = $adapter->fetchAll($query);
-			if (!$products) {
-				throw new Exception("products not found.", 1);
-			}
-
-			require_once 'view/product/grid.phtml';
+		$grid = new Block_Product_Grid();
+		$layout = new Block_Core_Layout();
+		$layout->getChild('content')->addChildren('grid',$grid);
+		$layout->render();
 	}
 
 	public function addAction()
 	{
-			require_once 'view/product/add.phtml';
+		try {
+			
+			$row = Ccc::getModel('Product_Row');
+			if (!$row) {
+				throw new Exception("Error Processing Request", 1);
+				
+			}
+			$edit = new Block_Product_Edit();
+			$edit->setData($row);
+
+			$layout = new Block_Core_Layout();
+			$layout->getChild('content')->addChildren('edit',$edit);
+			$layout->render();
+		} catch (Exception $e) {
+			$this->getMessageObject()->addMessage($e->getMessage(),Model_Core_Message::FAILURE);
+			$this->redirect("Product","grid");
+		}
 	}
 
-	public function insertAction()
+	public function saveAction()
 	{
-			$request = $this->getRequest();
-			$postData = $request->getPost('Product');
+			try {
 
-			$query = "INSERT INTO `product`(`product_name`, `cost`, `price`, `sku`, `status`, `quantity`, `discription`, `color`, `material`) VALUES ('$postData[productName]','$postData[cost]','$postData[price]','$postData[sku]','$postData[status]','$postData[quantity]','$postData[discription]','$postData[color]','$postData[material]')";
-			$adapter = $this->getAdapter();
-			$adapter->insert($query);
-			header("Location:index.php?c=Product&a=grid");
+				$request = $this->getRequest();
+				if (!$request->isPost()) {
+					throw new Exception("invalid request.", 1);
+				}
+
+				$postData = $request->getPost('Product');
+				if (!$postData) {
+					throw new Exception("Data Not Posted.", 1);
+				}
+
+				$row = Ccc::getModel('Product_Row');
+				if (!$row) {
+					throw new Exception("Error Processing Request", 1);
+				}
+
+				date_default_timezone_set('Asia/Kolkata');
+				if ($id=(int)$request->getParams('id')) {
+					$postData['updated_at'] = date('Y:m:d H:i:s');
+					$row->load($id);
+				}else {
+					$row->created_at = date('Y:m:d H:i:s');
+				}
+
+				$row->setData($postData);
+				if (!$row->save()) {
+					throw new Exception("Data Not Saved.", 1);
+				}
+
+				$this->getMessageObject()->addMessage('Data Saved Succsesfully.',Model_Core_Message::SUCCESS);
+				header("Location:index.php?c=Product&a=grid");
+
+			} catch (Exception $e) {
+				$this->getMessageObject()->addMessage($e->getMessage(),Model_Core_Message::FAILURE);
+				header("Location:index.php?c=Product&a=grid");
+			}
 	}
 
 	public function editAction()
 	{
+		try {
+			
 			$request = $this->getRequest();
-			$id = $request->getParams('id');
-			$query = "SELECT * FROM `product` WHERE `product_id`={$id}";
-			$adapter = $this->getAdapter();
-			$productRow = $adapter->fetchRow($query);
-			require_once 'view/product/edit.phtml';
-	}
+			$id = (int)$request->getParams('id');
+			if (!$id) {
+				throw new Exception("Invalid ID.", 1);
+			}
 
-	public function updateAction()
-	{
-			$request = $this->getRequest();
-			$postData = $request->getPost('Product');
-			$id = $request->getParams('id');
+			$productRow = Ccc::getModel('Product_Row')->load($id);
+			if (!$productRow) {
+				throw new Exception("Data Not Founded.", 1);
+			}
 
-			$query = "UPDATE `product` SET 
-							`product_name`='$postData[productName]',
-							`cost`='$postData[cost]',
-							`price`='$postData[price]',
-							`sku`='$postData[sku]',
-							`status`='$postData[status]',
-							`quantity`='$postData[quantity]',
-							`discription`='$postData[discription]',
-							`color`='$postData[color]',
-							`material`='$postData[material]' 
-							WHERE `product_id` = {$id}";
-			$adapter = $this->getAdapter();
-			$adapter->update($query);
+			$edit = new Block_Product_Edit();
+			$edit->setData($productRow);
+
+			$layout = new Block_Core_Layout();
+			$layout->getChild('content')->addChildren('edit',$edit);
+			$layout->render();
+
+		} catch (Exception $e) {
+			$this->getMessageObject()->addMessage($e->getMessage(),Model_Core_Message::FAILURE);
 			header("Location:index.php?c=Product&a=grid");
+		}
 	}
 
 	public function deleteAction()
 	{
-		$request = $this->getRequest();
-		$id = $request->getParams('id');
-		$query = "DELETE FROM `product` WHERE `product_id` = {$id}";
-		$adapter = $this->getAdapter();
-		$adapter->update($query);
-		header("Location:index.php?c=Product&a=grid");
+		try {
+
+			$request = $this->getRequest();
+			$id = (int)$request->getParams('id');
+			if (!$id) {
+				throw new Exception("Invalid ID.", 1);
+			}
+
+			$row = Ccc::getModel('Product_Row');
+			$row->load($id)->delete();
+
+			$this->getMessageObject()->addMessage('Data Deleted Succsesfully.',Model_Core_Message::SUCCESS);
+			header("Location:index.php?c=Product&a=grid");
+
+		} catch (Exception $e) {
+			$this->getMessageObject()->addMessage($e->getMessage(),Model_Core_Message::FAILURE);
+			header("Location:index.php?c=Product&a=grid");
+		}
 	}
 
 }

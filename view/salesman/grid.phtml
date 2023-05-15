@@ -1,0 +1,83 @@
+<?php 
+
+$salesmans = $this->getData();
+
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GRID</title>
+	<script type="jquery.js"></script>
+</head>
+<body>
+	<table  width="100%" style="margin-bottom:10px; border-collapse: collapse;";>
+		<tr>
+			<th> <h2>SALESMAN GRID</h2>	</th>
+			<th> <button> <a href="index.php?c=Salesman&a=add">ADD</a> </button></th>
+		</tr>
+	</table>
+	<table border="2px" width="100%" style="text-align: center;  border-collapse: collapse;">
+		<tr>
+			<th>SALESMAN ID</th>
+			<th>FIRST NAME</th>
+			<th>LAST NAME</th>
+			<th>EMAIL</th>
+			<th>GENDER</th>
+			<th>MOBILE</th>
+			<th>STATUS</th>
+			<th>COMPANY</th>
+			<th>CREATED AT</th>
+			<th>UPDATED AT</th>
+			<th>EDIT</th>
+			<th>DELETE</th>
+		</tr>
+		<?php if (!$salesmans): ?>
+				<tr>
+					<td colspan="14"> <h2>No Record Avilable.</h2></td>
+				</tr>
+		<?php  else: ?> 
+			<?php foreach ($salesmans as $salesman): ?>
+				<tr>
+					<td><?php echo $salesman->salesman_id; ?></td>
+					<td><?php echo $salesman->first_name; ?></td>
+					<td><?php echo $salesman->last_name; ?></td>
+					<td><?php echo $salesman->email; ?></td>
+					<td><?php echo $salesman->gender; ?></td>
+					<td><?php echo $salesman->mobile; ?></td>
+					<td><?php echo $salesman->status; ?></td>
+					<td><?php echo $salesman->company; ?></td>
+					<td><?php echo $salesman->created_at; ?></td>
+					<td><?php echo $salesman->updated_at; ?></td>
+					<td> <a href="index.php?c=Salesman&a=edit&id=<?php echo $salesman->salesman_id; ?>">EDIT</a> </td>
+					<td> <a href="index.php?c=Salesman&a=delete&id=<?php echo $salesman->salesman_id; ?>">DELETE</a> </td>
+				</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</table>
+	<table border="2px" width="100%" style="text-align: center; margin: auto;">
+		<tr>
+			<?php $pager = $this->getPager(); ?>
+				<td>
+					<select>
+							<option value="">5</option>
+							<option value="">10</option>
+							<option value="">20</option>
+					</select>
+				</td>
+				<td> <a href="index.php?c=Salesman&a=grid&p=<?PHP echo $pager->start ; ?>" <?php if ($pager->start == 0) {
+					echo 'style="pointer-events: none;"';} ?>	>START</a> </td>
+				<td> <a href="index.php?c=Salesman&a=grid&p=<?PHP echo $pager->previous ; ?>" <?php if ($pager->previous == 0) {echo 'style="pointer-events: none;"';} ?>>PREVIOUS</a> </td>
+				<td> <a href="index.php?c=Salesman&a=grid&p=<?PHP echo $pager->getCurrentPage(); ?>" <?php if ($pager->getCurrentPage() == 0) {echo 'style="pointer-events: none;"';} ?>><?PHP echo $pager->getCurrentPage(); ?></a> </td>
+				<td> <a href="index.php?c=Salesman&a=grid&p=<?PHP echo $pager->next ; ?>" <?php if ($pager->next == 0) {
+					echo 'style="pointer-events: none;"';} ?>>NEXT</a> </td>
+				<td> <a href="index.php?c=Salesman&a=grid&p=<?PHP echo $pager->end ; ?>" <?php if ($pager->end == 0) {
+					echo 'style="pointer-events: none;"';} ?>>END</a> </td>
+		</tr>
+	</table>
+</body>
+</html>
+

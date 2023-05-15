@@ -1,10 +1,12 @@
 <?php 
 
 
-class Model_Core_Table
+//table to resource
+
+class Model_Core_Table_Resource
 {
 	protected $adapter = NULL;
-	protected $tableName = NULL;
+	protected $resourceName = NULL;
 	protected $primaryKey = NULL;
 
 	public function setAdapter(Model_Core_Adapter $adapter)
@@ -23,15 +25,15 @@ class Model_Core_Table
 		return $adapter;
 	}
 
-	public function setTableName($tableName)
+	public function setResourceName($resourceName)
 	{
-		$this->tableName = $tableName;
+		$this->resourceName = $resourceName;
 		return $this;
 	}
 
-	public function getTableName()
+	public function getResourceName()
 	{
-		return $this->tableName;
+		return $this->resourceName;
 	}
 
 	public function setPrimaryKey($primaryKey)
@@ -58,7 +60,7 @@ class Model_Core_Table
 
 			$keyString = implode("`,`", array_keys($data));
 			$valueString = implode("','", array_values($data));
-			echo $query = "INSERT INTO `{$this->getTableName()}` (`$keyString`) VALUE ('$valueString')";
+		echo"<br>".	$query = "INSERT INTO `{$this->getResourceName()}` (`$keyString`) VALUE ('$valueString')";
 			return $this->getAdapter()->insert($query);
 		}
 	}
@@ -77,11 +79,6 @@ class Model_Core_Table
 				$set[] = "`".$key."`='".$value."'";
 		}
 
-		// echo "<pre>";
-		// echo "111";
-		// print_r($set);
-		// die();
-
 		$where = "";
 		if (is_array($condition)) {
 			 	foreach ($condition as $column => $value) {
@@ -91,7 +88,7 @@ class Model_Core_Table
 			$where = "`".$this->getPrimaryKey()."` = '".$condition."'" ;
 		}
 
-		echo $query = "UPDATE `{$this->getTableName()}` SET ".implode(",", $set)."  where $where";
+		echo $query = "UPDATE `{$this->getResourceName()}` SET ".implode(",", $set)."  where $where";
 		return $this->getAdapter()->update($query);
 	}
 
@@ -106,7 +103,7 @@ class Model_Core_Table
 			$where = "`".$this->primaryKey."`='".$condition."'";
 		}
 
-		$query = "DELETE FROM `{$this->getTableName()}` WHERE $where";
+		$query = "DELETE FROM `{$this->getResourceName()}` WHERE $where";
 		return $this->getAdapter()->insert($query);
 	}
 

@@ -1,0 +1,60 @@
+<?PHP 
+
+$vendors = $this->getData();
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GRID</title>
+</head>
+<body>
+	<table  width="100%" style="margin-bottom:10px";>
+		<tr>
+			<th> <h2>VENDOR GRID</h2>	</th>
+			<th> <button> <a href="index.php?c=Vendor&a=add">ADD</a> </button></th>
+		</tr>
+	</table>
+	<table border="2px" width="100%" style="text-align: center;">
+		<tr>
+			<th>VENDOR ID</th>
+			<th>FIRST NAME</th>
+			<th>LAST NAME</th>
+			<th>EMAIL</th>
+			<th>GENDER</th>
+			<th>MOBILE</th>
+			<th>STATUS</th>
+			<th>DISCRIPTION</th>
+			<th>CREATED AT</th>
+			<th>UPDATED AT</th>
+			<th>EDIT</th>
+			<th>DELETE</th>
+		</tr>
+		<?php if (!$vendors): ?>
+				<tr>
+					<td colspan="14"> <h2>No Record Avilable.</h2></td>
+				</tr>
+		<?php  else: ?> 
+			<?php foreach ($vendors as $vendor): ?>
+				<tr>
+					<td><?php echo $vendor->vendor_id; ?></td>
+					<td><?php echo $vendor->first_name; ?></td>
+					<td><?php echo $vendor->last_name; ?></td>
+					<td><?php echo $vendor->email; ?></td>
+					<td><?php echo $vendor->gender; ?></td>
+					<td><?php echo $vendor->mobile; ?></td>
+					<td><?php echo $vendor->status; ?></td>
+					<td><?php echo $vendor->discription; ?></td>
+					<td><?php echo $vendor->created_at; ?></td>
+					<td><?php echo $vendor->updated_at; ?></td>
+					<td> <a href="index.php?c=Vendor&a=edit&id=<?php echo $vendor->vendor_id; ?>">EDIT</a> </td>
+					<td> <a href="index.php?c=Vendor&a=delete&id=<?php echo $vendor->vendor_id; ?>">DELETE</a> </td>
+				</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</table>
+</body>
+</html>

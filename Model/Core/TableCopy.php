@@ -1,21 +1,22 @@
 <?php 
 
+//row to table
 
-
-class Model_Core_Table_Row
+class Model_Core_TableCopy
 {
-	protected $table = NULL;
-	protected $tableClass = NULL;
+	protected $resource = NULL;
+	protected $resourceClass = 'Model_Core_Table_Resource';
 	protected $data = [];
+	protected $collectionClass = 'Model_Core_Table_Collection';
 
 	public function getPrimaryKey()
 	{
-		return $this->getTable()->getPrimaryKey();
+		return $this->getResource()->getPrimaryKey();
 	}
 
-	public function getTableName()
+	public function getResourceName()
 	{
-		return $this->getTable()->getTableName();
+		return $this->getResource()->getResourceName();
 	}
 
 	public function getId()
@@ -24,21 +25,38 @@ class Model_Core_Table_Row
 		return $id; 
 	}
 
-	public function setTable(Model_Core_Table $table)
+	public function setResource(Model_Core_Table_Resource $resource)
 	{
-		$this->table = $table;
+		$this->resource = $resource;
 		return $this;
 	}
 
-	public function getTable()
+	public function getResource()
 	{
-		if ($this->table) {
-			return $this->table;
+		if ($this->resource) {
+			return $this->resource;
 		}
-		$tableClass = $this->tableClass;
-		$table = new $tableClass();
-		$this->setTable($table);
-		return $table;
+		$resourceClass = $this->resourceClass;
+		$resource = new $resourceClass();
+		$this->setResource($resource);
+		return $resource;
+	}
+
+	public function setCollection(Model_Core_Table_Collection $collection)
+	{
+		$this->collection = $collection;
+		return $this;
+	}
+
+	public function getCollection()
+	{
+		if ($this->collection) {
+			return $this->collection;
+		}
+		$collectionClass = $this->collectionClass;
+		$collection = new $collectionClass();
+		$this->setCollection($collection);
+		return $collection;
 	}
 
 	public function addData($key,$value)
@@ -99,23 +117,24 @@ class Model_Core_Table_Row
 
 	public function fetchAll($query)
 	{
-		$table = $this->getTable();
-		$result = $table->getAdapter()->fetchAll($query);
+		$resource = $this->getResource();
+		$result = $resource->fetchAll($query);
 		if (!$result) {
 			return false;
 		}
 
 		foreach ($result as &$row) {
-			$row = (new $this)->setData($row)->setTable($this->getTable());
+			$row = (new $this)->setData($row)->setResource($this->getResource());
 		}
 
-		return $result;
+		$collection = $this->getCollection()->setData($result);
+		return $collection;
+
 	}
 
 	public function fetchRow($query)
 	{
-		$table = $this->getTable();
-		$row = $this->getTable()->fetchRow($query);
+		$row = $this->getResource()->fetchRow($query);
 		if ($row) {
 			$this->data = $row;
 			return $this;
@@ -128,9 +147,9 @@ class Model_Core_Table_Row
 		if ($column == NULL) {
 			$column = $this->getPrimaryKey();
 		}
-		echo $query = "SELECT * FROM `{$this->getTableName()}` WHERE $column = '{$id}'";
-		$table = $this->getTable();
-		$row = $table->fetchRow($query);
+		echo $query = "SELECT * FROM `{$this->getResourceName()}` WHERE $column = '{$id}'";
+		$resource = $this->getResource();
+		$row = $resource->fetchRow($query);
 		if ($row) {
 			$this->data = $row;
 		}
@@ -141,10 +160,10 @@ class Model_Core_Table_Row
 	{
 		if ($id = $this->getId()) {
 				$id = $this->getId();
-				$this->getTable()->update($id,$this->getData());
+				$this->getResource()->update($id,$this->getData());
 				return $this;
 		}else{
-				$table = $this->getTable();
+				$table = $this->getResource();
 				$insertId = $table->insert($this->getData());
 				return $this->load($insertId);
 		}
@@ -156,8 +175,8 @@ class Model_Core_Table_Row
 		if (!$id) {
 			return false;
 		}
-		$table = $this->getTable();
-		$table->delete($id);
+		$resource = $this->getResource();
+		$resource->delete($id);
 		return $this->removeData();
 	}	
 

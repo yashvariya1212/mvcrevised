@@ -1,12 +1,14 @@
 <?php 
 
+session_start();
+define("DS", DIRECTORY_SEPARATOR);
 
 spl_autoload_register(function ($className) {
 	$classPath = str_replace('_', '/', $className);
     require_once $classPath . '.php';
 });
 
-class Index
+class Ccc
 {
 	
 	public static function init()
@@ -24,7 +26,7 @@ class Index
 }
 
 
-$index = new Index();
+$index = new Ccc();
 $index->init();
 
 

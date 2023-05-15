@@ -18,7 +18,10 @@ class Model_Core_Request
 
 	public function isPost()
 	{
-
+		if ($_SERVER['REQUEST_METHOD'] != "POST") {
+			return false;
+		}
+		return true;
 	}
 
 	public function getParams($key=NULL, $value=NULL)

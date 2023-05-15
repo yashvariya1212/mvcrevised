@@ -4,18 +4,38 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
+	<style>
+		.success {
+            background-color: green;
+            color: white;
+            padding: 5px;
+            display: inline-block;
+        }
+        .failure{
+            background-color: darkred;
+            color: white;
+            padding: 5px;
+            display: inline-block;
+        }
+        .notice{
+            background-color: orange;
+            color: white;
+            padding: 5px;
+            display: inline-block;
+        }
+	</style>
 </head>
 <body>
 
-	<table border="2px" width="100%" style="margin-bottom: 10px;">
+	<table width="100%" style="margin-bottom: 10px;text-align: center;">
 		<tr>
-			<td>PRODUCT</td>
-			<td>CATEGORY</td>
-			<td>CUSTOMER</td>
-			<td>VENDOR</td>
-			<td>SALESMAN</td>
-			<td>SHIPPING METHOD</td>
-			<td>PAYMENT METHOD</td>
+			<td> <a href="index.php?c=Product&a=grid">PRODUCT</a></td>
+			<td> <a href="index.php?c=Category&a=grid">CATEGORY</a></td>
+			<td> <a href="index.php?c=Customer&a=grid">CUSTOMER</a></td>
+			<td> <a href="index.php?c=Vendor&a=grid">VENDOR</a></td>
+			<td> <a href="index.php?c=Salesman&a=grid">SALESMAN</a></td>
+			<td> <a href="index.php?c=Shippping&a=grid">SHIPPING METHOD</a></td>
+			<td> <a href="index.php?c=Payment&a=grid">PAYMENT METHOD</a></td>
 		</tr>
 	</table>
 

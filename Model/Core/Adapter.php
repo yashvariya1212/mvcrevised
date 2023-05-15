@@ -57,6 +57,46 @@ class Model_Core_Adapter
 		return true;
 	}
 
+	public function delete($query)
+	{
+		$connect = $this->connect();
+		$result = $connect->query($query);
+		if (!$result) {
+			return false;
+		}
+		return true; 
+	}
+
+	public function fetchOne($query)
+	{
+		$connect = $this->connect();
+		$result = $connect->query($query);
+		if (!$result) {
+			return false;
+		}
+		$row = $result->fetch_array();
+		if (!array_key_exists(0, $row)) {
+			return NULL;
+		}
+		return $row[0];
+	}
+
+	public function fetchPairs($query)
+	{
+		$connect = $this->connect();
+		$result = $connect->query($query);
+		if (!$result) {
+			return false;
+		}
+		$data = $result->fetch_all();
+		$column1 = array_column($data, 0);
+		$column2 = array_column($data, 1);
+		if (!$column2) {
+			$column2 = array_fill(0, count($column1), NULL);
+		}
+		return array_combine($column1, $column2);
+	}
+
 }
 
 

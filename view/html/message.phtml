@@ -1,0 +1,15 @@
+<?php 
+
+$messageObj = Ccc::getModel('Core_Message');
+$messages = $messageObj->getMessage();
+
+if ($messages) {
+	foreach ($messages as $type => $message) {
+			echo "<p class='{$type}'>";
+			echo $message;
+			echo "</p>";
+	}
+}
+$messageObj->removeMessage();
+
+?>

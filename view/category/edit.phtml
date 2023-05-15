@@ -1,0 +1,67 @@
+<?php 
+
+
+$model = $this->model;
+$categories = $this->categories;
+// echo "<pre>";
+// print_r($this);
+// die();
+
+?>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>EDIT</title>
+</head>
+<body>
+
+	<?PHP require 'view/html/header.phtml'; ?>
+	<table  width="100%" style="margin-bottom:10px";>
+		<tr>
+			<th> <h2>CATEGORY EDIT</h2>	</th>
+		</tr>
+	</table>
+	<form action="index.php?c=Category&a=save&id=<?php echo $model->category_id;; ?>" method="POST">
+		<table border="1px" style="text-align: center; margin-left: 550px;">
+			<tr>
+				<td>PARENT</td>
+				<td>
+					<select name="category[parent_id]">
+						<option>SELECT PARENT</option>
+						<?php foreach ($categories as $key => $value): ?>
+								<option  value="<?php echo $value->category_id; ?>"><?php print_r($value->getPathName()); ?></option>
+						<?php endforeach; ?>
+					</select>
+			</tr>
+			<tr>
+				<td>NAME</td>
+				<td> <input type="text" name="category[name]" value="<?php echo $model->name; ?>">  </td>
+			</tr>
+			<tr>
+				<td>STATUS</td>
+				<td>
+					<select name="category[status]" value="<?php echo $model->status; ?>"> 
+						<option>SELECT BELOW</option>
+						<option>ACTIVE</option>
+						<option>INACTIVE</option>
+					</select>
+
+				</td>
+			</tr>
+			<tr>
+				<td>DISCRIPTION</td>
+				<td> <input type="text" name="category[discription]" value="<?php echo $model->discription; ?>">  </td>
+			</tr>
+			<tr>
+				<th> <button> <a href="index.php?c=Category&a=grid">CANCEL</a> </button></th>
+				<th> <button type="submit"> SAVE </button></th>
+			</tr>
+		</table>
+	</form>
+
+</body>
+</html>

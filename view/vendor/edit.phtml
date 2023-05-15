@@ -1,0 +1,89 @@
+<?php 
+
+$vendor = $this->getData();
+
+?>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ADD</title>
+</head>
+<body>
+
+	<table  width="100%" style="margin-bottom:10px";>
+		<tr>
+			<th> <h2>VENDOR EDIT</h2>	</th>
+		</tr>
+	</table>
+	<form action="index.php?c=Vendor&a=save&id=<?php echo $vendor->vendor_id;; ?>" method="POST">
+		<table border="1px" style="text-align: center; margin-left: 550px;">
+			<tr>
+				<td>FIRST NAME</td>
+				<td> <input type="text" name="vendor[first_name]" value="<?php echo $vendor->first_name; ?>">  </td>
+			</tr>
+			<tr>
+				<td>LAST NAME</td>
+				<td> <input type="text" name="vendor[last_name]" value="<?php echo $vendor->last_name; ?>">  </td>
+			</tr>
+			<tr>
+				<td>EMAIL</td>
+				<td> <input type="text" name="vendor[email]" value="<?php echo $vendor->email; ?>">  </td>
+			</tr>
+			<tr>
+				<td>GENDER</td>
+				<td> <input type="text" name="vendor[gender]" value="<?php echo $vendor->gender; ?>">  </td>
+			</tr>
+			<tr>
+				<td>MOBILE</td>
+				<td> <input type="text" name="vendor[mobile]" value="<?php echo $vendor->mobile; ?>">  </td>
+			</tr>
+			<tr>
+				<td>STATUS</td>
+				<td>
+					<select name="vendor[status]" value="<?php echo $vendor->status; ?>"> 
+						<option>SELECT BELOW</option>
+						<option>ACTIVE</option>
+						<option>INACTIVE</option>
+					</select>
+
+				</td>
+			</tr>
+			<tr>
+				<td>DISCRIPTION</td>
+				<td> <input type="text" name="vendor[discription]" value="<?php echo $vendor->discription; ?>">  </td>
+			</tr>
+		</table>
+		<table border="1px" style="text-align: center; margin-left: 550px;margin-top: 20px;">
+			<tr>
+				<td>ADDRESS</td>
+				<td> <input type="text" name="vendoraddress[address]" value="<?php echo $vendor->address; ?>">  </td>
+			</tr>
+			<tr>
+				<td>CITY</td>
+				<td> <input type="text" name="vendoraddress[city]" value="<?php echo $vendor->city; ?>">  </td>
+			</tr>
+			<tr>
+				<td>STATE</td>
+				<td> <input type="text" name="vendoraddress[state]" value="<?php echo $vendor->state; ?>">  </td>
+			</tr>
+			<tr>
+				<td>COUNTRY</td>
+				<td> <input type="text" name="vendoraddress[country]" value="<?php echo $vendor->country; ?>">  </td>
+			</tr>
+			<tr>
+				<td>ZIPCODE</td>
+				<td> <input type="text" name="vendoraddress[zipcode]" value="<?php echo $vendor->zipcode; ?>">  </td>
+			</tr>
+			<tr>
+				<th> <button> <a href="index.php?c=Vendor&a=grid">CANCEL</a> </button></th>
+				<th> <button type="submit"> SAVE </button></th>
+			</tr>
+		</table>
+	</form>
+
+</body>
+</html>
