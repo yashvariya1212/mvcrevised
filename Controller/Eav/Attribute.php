@@ -10,9 +10,9 @@ class Controller_Eav_Attribute extends Controller_Core_Action
 	{
 		$model = Ccc::getModel('Eav_Attribute');
 
-		echo "<pre>";
-		print_r($model);
-		die();
+
+
+		
 	}
 
 
